@@ -1,6 +1,6 @@
 {
   "name": "now-bar",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Dynamic Island premium pour Windows 11",
   "main": "electron/main.js",
   "scripts": {
@@ -13,8 +13,7 @@
     "app": "concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
     "dist": "npm run build && electron-builder --win",
     "dist:portable": "npm run build && electron-builder --win portable",
-    "pack": "npm run build && electron-builder --dir",
-    "release": "npm run build && electron-builder --win --publish always"
+    "release": "npm version patch && git push --follow-tags origin main && npm run build && electron-builder --win --publish always"
   },
   "build": {
     "appId": "com.alban.nowbar",
@@ -39,12 +38,6 @@
           "arch": [
             "x64"
           ]
-        },
-        {
-          "target": "portable",
-          "arch": [
-            "x64"
-          ]
         }
       ]
     },
@@ -59,7 +52,7 @@
       "provider": "github",
       "owner": "BIBIdu39",
       "repo": "Now_Bar",
-      "private": true
+      "releaseType": "release"
     }
   },
   "keywords": [
