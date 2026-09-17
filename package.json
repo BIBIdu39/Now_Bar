@@ -1,0 +1,79 @@
+{
+  "name": "now-bar",
+  "version": "1.0.0",
+  "description": "Dynamic Island premium pour Windows 11",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prestart": "node -e \"try { require('child_process').execSync('taskkill /F /IM electron.exe', { stdio: 'ignore' }); } catch(e) {}\"",
+    "start": "electron .",
+    "restart": "npm start",
+    "app": "concurrently -k \"vite\" \"wait-on tcp:5173 && electron .\"",
+    "dist": "npm run build && electron-builder --win",
+    "dist:portable": "npm run build && electron-builder --win portable",
+    "pack": "npm run build && electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.alban.nowbar",
+    "productName": "Now Bar",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "scripts/nowbar_helper.exe",
+        "to": "scripts/nowbar_helper.exe"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true
+    }
+  },
+  "keywords": [
+    "dynamic-island",
+    "windows-11",
+    "desktop",
+    "productivity"
+  ],
+  "author": "Alban",
+  "license": "MIT",
+  "dependencies": {
+    "lucide-react": "^1.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^34.2.0",
+    "electron-builder": "^26.15.3",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.1.0",
+    "wait-on": "^8.0.2"
+  }
+}

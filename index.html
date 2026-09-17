@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Now Bar — Dynamic Island</title>
+    <!-- Prevent standard drag on images/links -->
+    <style>
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -webkit-user-drag: none;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: transparent !important;
+      }
+    </style>
+  </head>
+  <body class="bg-transparent text-island-text antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
