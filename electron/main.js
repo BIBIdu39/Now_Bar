@@ -3,6 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const url = require('url');
 const { exec, spawn, execFile } = require('child_process');
+const { autoUpdater } = require('electron-updater');
 
 // Hardware GPU rasterization & zero-copy transfer flags for AMD Radeon graphics
 app.commandLine.appendSwitch('enable-gpu-rasterization');
@@ -932,6 +933,27 @@ app.whenReady().then(() => {
   createIslandWindow();
   createSystemTray();
   startFullscreenWatcher();
+
+  // Auto-update: check silently for updates on GitHub Releases
+  if (!process.env.VITE_DEV_SERVER_URL) {
+    autoUpdater.autoDownload = true;
+    autoUpdater.autoInstallOnAppQuit = true;
+
+    autoUpdater.on('update-downloaded', () => {
+      if (Notification.isSupported()) {
+        const notif = new Notification({
+          title: 'Now Bar — Mise à jour disponible',
+          body: 'Une nouvelle version a été téléchargée. Elle sera installée au prochain redémarrage.',
+        });
+        notif.show();
+      }
+    });
+
+    // Check for updates 5 seconds after launch (to not slow startup)
+    setTimeout(() => {
+      autoUpdater.checkForUpdates().catch(() => {});
+    }, 5000);
+  }
 
   // Listen to Windows session lock, unlock, suspend, and resume events
   powerMonitor.on('lock-screen', () => {
